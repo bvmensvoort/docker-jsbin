@@ -1,8 +1,11 @@
-FROM node:20
+FROM node:10
+WORKDIR /usr/src
+RUN git clone --depth 1 --branch master https://github.com/jsbin/jsbin.git
 WORKDIR /usr/src/jsbin
-RUN npm install -g jsbin;
-ENV JSBIN_CONFIG=/usr/src/jsbin/config.local.json
+RUN npm install; \
+    npm run-script build;
 
-#COPY index.html /usr/src/flems/dist/index.html
+ENV JSBIN_CONFIG=/usr/src/jsbin/config/config.local.json
+VOLUME ./config
 
-CMD ["jsbin"]
+CMD ["bin/jsbin"]
